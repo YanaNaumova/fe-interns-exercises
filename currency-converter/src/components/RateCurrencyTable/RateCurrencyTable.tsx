@@ -1,34 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import {Table} from 'antd';
+import './RateCurrencyTable.css';
 
-function status(res: any) {
-    if (!res.ok) {
-        throw new Error(res.statusText);
+const status=(responseFromApi: Response) =>{
+    if (!responseFromApi.ok) {
+        throw new Error(responseFromApi.statusText);
     }
-    return res;
+
+    return responseFromApi;
 }
 
-export function Table1() {
-    function handleChange(value: string) {
-        console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+export const RateCurrencyTable=()=> {
+    const handleChange=(value: string)=> {
+        console.log(value);
     }
 
     const [rates, setRates] = useState<Record<string, number>>({});
 
-
     useEffect(() => {
         fetch(`http://data.fixer.io/api/latest?access_key=1fb3925f0accbb455a20ff47481756f0`)
             .then(status)
-            .then(res => res.json())
+            .then(respomse => respomse.json())
             .then(json => {
                 setRates(json.rates)
-
             })
             .catch(error => {
+
                 return Promise.reject()
             })
     }, []);
-
 
     const columns = [
         {
@@ -40,9 +40,10 @@ export function Table1() {
             dataIndex: 'value',
         },
     ];
-    const data = Object.keys(rates).map((ratesKey,index) => {
-        return (
 
+    const data = Object.keys(rates).map((ratesKey, index) => {
+
+        return (
             {
                 key: `${index}`,
                 rate: `${ratesKey}`,

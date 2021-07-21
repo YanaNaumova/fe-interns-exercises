@@ -1,0 +1,15 @@
+.site-layout-background {
+    background: #fff;
+    padding: 24px;
+    margin: 0px;
+    minHeight: 300px;
+}
+.layout{
+    padding: 0px 24px 24px;
+}
+.breadcrumb{
+    margin: 16px 0px;
+}
+.ant-layout-content {
+    min-height:300px;
+}

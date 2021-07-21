@@ -1,0 +1,14 @@
+.base{
+    margin-right:10px;
+    margin-left:10px;
+}
+.inputAmount{
+
+    border:1px solid #C9C6BA;
+    height: 30px;
+    width: 100px;
+}
+.result{
+    margin-top: 20px;
+    display: inline-block;
+}

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Table } from 'antd';
+import {Table} from 'antd';
+import './RateCurrencyHistoryTable.css';
 
-export function Table2(){
+export const RateCurrencyHistoryTable=()=> {
     const columns = [
         {
             title: 'Date story by this',
@@ -12,6 +13,7 @@ export function Table2(){
             dataIndex: 'age',
         },
     ];
+
     const data = [
         {
             key: '1',
@@ -29,9 +31,10 @@ export function Table2(){
             age: 32,
         },
     ];
-    return(
+
+    return (
         <div>
-            <Table columns={columns} dataSource={data} size="middle" />
+            <Table columns={columns} dataSource={data} size="middle"/>
         </div>
-        )
+    )
 }
