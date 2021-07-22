@@ -15,8 +15,9 @@ export const History = () => {
     let day: string | number = date.getDate();
     let month: string | number = date.getMonth();
     let year = date.getFullYear();
-    if (day < 10) day = "0" + day;
-    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + (day+1);
+    if (month < 10) month = "0" + (month+1);
+
     let newdateStr: string = year + '-' + month + '-' + day;
     const [currencies, setCurrencies] = useState<Record<string, number>>({});
     const [currenciesFoSelect, setCurrenciesFoSelect] = useState<Record<string, number>>({});

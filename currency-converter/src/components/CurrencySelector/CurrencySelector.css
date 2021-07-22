@@ -11,4 +11,6 @@
 .result{
     margin-top: 20px;
     display: inline-block;
+    font-size: 30px;
+    font-weight: bold;
 }
