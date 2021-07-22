@@ -7,33 +7,50 @@ import './HistoryCurrencySelector.css'
 
 const {Option} = Select;
 
-export const HistoryCurrencySelector=()=> {
-    const handleChange=(value: string)=> {console.log(value)}
+export const HistoryCurrencySelector = (props: any) => {
 
-    const defaultValue = 'jack';
+    const handleChange1 = (value: string) => {
+        props.setBaseCurrencies(value)
+    }
+    const handleChange2 = (value: string) => {
+        props.setHistoriCurrencies(value)
+    }
+    const defaultValue = 'EUR';
 
     return (
         <>
             <label> <span className="base">Base:</span>
                 <Select className="select"
                         defaultValue={defaultValue}
-                        onChange={handleChange}
+                        onChange={handleChange1}
                 >
-                    <Option value="jack">Jack (100)</Option>
-                    <Option value="lucy">Lucy (101)</Option>
+                    {
+                        Object.keys(props.currenciesFoSelect).map(currencyKey => {
+
+                            return (
+                                <Option value={currencyKey}>{`${currencyKey} `}</Option>
+                            )
+                        })
+                    }
                 </Select>
             </label>
             <label> <span className="base">History of:</span>
                 <Select
-                    defaultValue={defaultValue}
-                    onChange={handleChange}
+                    defaultValue="USD"
+                    onChange={handleChange2}
                 >
-                    <Option value="jack">Jack (100)</Option>
-                    <Option value="lucy">Lucy (101)</Option>
+                    {
+                        Object.keys(props.currenciesFoSelect).map(currencyKey => {
+
+                            return (
+                                <Option value={currencyKey}>{`${currencyKey} `}</Option>
+                            )
+                        })
+                    }
                 </Select>
             </label>
             <label><span className="base">Data range:</span>
-                <DataP/>
+                <DataP setDateStart={props.setDateStart} setDateEnd={props.setDateEnd}/>
             </label>
         </>
     )

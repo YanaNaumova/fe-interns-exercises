@@ -2,35 +2,28 @@ import React from 'react';
 import {Table} from 'antd';
 import './RateCurrencyHistoryTable.css';
 
-export const RateCurrencyHistoryTable=()=> {
+export const RateCurrencyHistoryTable = (props: any) => {
     const columns = [
         {
-            title: 'Date story by this',
-            dataIndex: 'name',
+            title: 'Date',
+            dataIndex: 'rate',
         },
         {
             title: 'Rate',
-            dataIndex: 'age',
+            dataIndex: 'value',
         },
     ];
 
-    const data = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-        },
-    ];
+    const data = Object.keys(props.currencies).map((ratesKey, index) => {
+
+        return (
+            {
+                key: `${index}`,
+                rate: `${ratesKey}`,
+                value: `${props.currencies[ratesKey][props.historyCurrencies]}`,
+            }
+        )
+    })
 
     return (
         <div>
