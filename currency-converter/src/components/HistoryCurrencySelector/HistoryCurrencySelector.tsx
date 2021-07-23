@@ -1,19 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Select} from 'antd';
 import "../../index.css";
 import "antd/dist/antd.css";
 import {DataP} from "../DataPicker/DataPicker";
 import './HistoryCurrencySelector.css'
+import {Interface} from "readline";
 
 const {Option} = Select;
 
-export const HistoryCurrencySelector = (props: any) => {
+
+interface IHistoryCurrencyProps {
+    currenciesFoSelect: Record<string, number>;
+    currencies: Record<string,Record<string, number>>;
+    setBaseCurrencies: (value: string) => void;
+    setDateStart: (value: string) => void;
+    setDateEnd: (value: string) => void;
+    setHistoryCurrencies: (value: string) => void;
+}
+
+export const HistoryCurrencySelector = (props: IHistoryCurrencyProps) => {
 
     const handleChange1 = (value: string) => {
         props.setBaseCurrencies(value)
     }
     const handleChange2 = (value: string) => {
-        props.setHistoriCurrencies(value)
+        props.setHistoryCurrencies(value)
     }
     const defaultValue = 'EUR';
 

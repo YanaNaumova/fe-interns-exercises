@@ -12,6 +12,7 @@ export const History = () => {
     }
 
     const date = new Date();
+
     let day: string | number = date.getDate();
     let month: string | number = date.getMonth();
     let year = date.getFullYear();
@@ -19,10 +20,11 @@ export const History = () => {
     if (month < 10) month = "0" + (month+1);
 
     let newdateStr: string = year + '-' + month + '-' + day;
-    const [currencies, setCurrencies] = useState<Record<string, number>>({});
+
+    const [currencies, setCurrencies] = useState<Record<string,Record<string, number>>>({});
     const [currenciesFoSelect, setCurrenciesFoSelect] = useState<Record<string, number>>({});
     const [baseCurrencies, setBaseCurrencies] = useState<string>('EUR');
-    const [historyCurrencies, setHistoriCurrencies] = useState<string>('USD');
+    const [historyCurrencies, setHistoryCurrencies] = useState<string>('USD');
     const [dateStart, setDateStart] = useState<string>(newdateStr);
     const [dateEnd, setDateEnd] = useState<string>(`${newdateStr}`);
 
@@ -47,6 +49,7 @@ export const History = () => {
             .then(changeStatus)
             .then(response => response.json())
             .then(json => {
+
                 setCurrencies(json.rates)
             })
             .catch(error => {
@@ -60,7 +63,7 @@ export const History = () => {
         <>
             <HistoryCurrencySelector currenciesFoSelect={currenciesFoSelect} currencies={currencies}
                                      setBaseCurrencies={setBaseCurrencies} setDateStart={setDateStart}
-                                     setDateEnd={setDateEnd} setHistoriCurrencies={setHistoriCurrencies}/>
+                                     setDateEnd={setDateEnd} setHistoryCurrencies={setHistoryCurrencies}/>
             <RateCurrencyHistoryTable currencies={currencies} historyCurrencies={historyCurrencies}/>
         </>
     )

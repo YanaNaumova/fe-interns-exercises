@@ -5,8 +5,12 @@ import "antd/dist/antd.css";
 import './BaseCurrencySelector.css';
 
 const {Option} = Select;
+interface IBaseCurrencyProps {
+    setBaseCurrencies:(value:string) => void;
+    currencies:Record<string, number>;
+}
 
-export const BaseCurrencySelector = (props: any) => {
+export const BaseCurrencySelector = (props:IBaseCurrencyProps) => {
 
     const handleChange = (value: string) => {
         props.setBaseCurrencies(value)

@@ -1,16 +1,13 @@
 import React, {useEffect, useState,useContext} from 'react';
 import {Table} from 'antd';
 import './RateCurrencyTable.css';
+import {Interface} from "readline";
 
-const status=(responseFromApi: Response) =>{
-    if (!responseFromApi.ok) {
-        throw new Error(responseFromApi.statusText);
-    }
-
-    return responseFromApi;
+interface IRateCurrencyProps{
+    currencies:Record<string, number>
 }
 
-export const RateCurrencyTable=(props:any)=> {
+export const RateCurrencyTable=(props:IRateCurrencyProps)=> {
     const columns = [
         {
             title: 'Currency name',

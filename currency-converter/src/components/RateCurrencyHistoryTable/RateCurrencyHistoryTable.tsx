@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Table} from 'antd';
 import './RateCurrencyHistoryTable.css';
 
-export const RateCurrencyHistoryTable = (props: any) => {
+
+
+interface  IRateHistoryProps{
+    currencies: Record<string,Record<string, number>>
+    historyCurrencies:string;
+}
+
+export const RateCurrencyHistoryTable = (props: IRateHistoryProps) => {
     const columns = [
         {
             title: 'Date',
@@ -21,8 +28,9 @@ export const RateCurrencyHistoryTable = (props: any) => {
                 key: `${index}`,
                 rate: `${ratesKey}`,
                 value: `${props.currencies[ratesKey][props.historyCurrencies]}`,
-            }
-        )
+
+            })
+
     })
 
     return (
