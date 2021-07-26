@@ -14,13 +14,14 @@ interface IHistoryCurrencyProps {
   setHistoryCurrencies: (value: string) => void;
 }
 
-export const HistoryCurrencySelector:React.FC<IHistoryCurrencyProps> = ({
-  currenciesFoSelect,
-  setBaseCurrencies,
-  setDateStart,
-  setDateEnd,
-  setHistoryCurrencies,
-}) => {
+export const HistoryCurrencySelector: React.FC<IHistoryCurrencyProps> = (
+  {
+    currenciesFoSelect,
+    setBaseCurrencies,
+    setDateStart,
+    setDateEnd,
+    setHistoryCurrencies,
+  }) => {
   const handleBaseCurrencyChange = (value: string) => {
     setBaseCurrencies(value)
   }
@@ -39,7 +40,7 @@ export const HistoryCurrencySelector:React.FC<IHistoryCurrencyProps> = ({
                 onChange={handleBaseCurrencyChange}
         >
           {
-            Object.keys(currenciesFoSelect).map(currencyKey => <Option
+            Object.keys(currenciesFoSelect).map((currencyKey,index) => <Option key={index}
               value={currencyKey}>{`${currencyKey} `}</Option>)
           }
         </Select>
@@ -50,13 +51,13 @@ export const HistoryCurrencySelector:React.FC<IHistoryCurrencyProps> = ({
           onChange={handleHistoryCurrencyChange}
         >
           {
-            Object.keys(currenciesFoSelect).map(currencyKey => <Option
+            Object.keys(currenciesFoSelect).map((currencyKey,index) => <Option key={index}
               value={currencyKey}>{`${currencyKey} `}</Option>)
           }
         </Select>
       </label>
       <label><span className="base">Data range:</span>
-        <DataP setDateStart={setDateStart} setDateEnd={setDateEnd}/>
+        <DataP  setDateStart={setDateStart} setDateEnd={setDateEnd}/>
       </label>
     </>
   )

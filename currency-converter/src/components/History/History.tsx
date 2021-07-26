@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {HistoryCurrencySelector} from "../HistoryCurrencySelector/HistoryCurrencySelector";
 import {RateCurrencyHistoryTable} from "../RateCurrencyHistoryTable/RateCurrencyHistoryTable";
+import moment from "moment";
 
 export const History = () => {
   const changeStatus = (responseFromApi: Response) => {
@@ -10,16 +11,9 @@ export const History = () => {
 
     return responseFromApi;
   }
-
-  const date = new Date();
-
-  let day: string | number = date.getDate();
-  let month: string | number = date.getMonth();
-  let year = date.getFullYear();
-  if (day < 10) day = "0" + (day + 1);
-  if (month < 10) month = "0" + (month + 1);
-
-  let newDateStr: string = year + '-' + month + '-' + day;
+  const newDateStr = moment(new Date())
+    .format("YYYY-MM-DD")
+    .toString();
 
   const [currencies, setCurrencies] = useState<Record<string, Record<string, number>>>({});
   const [currenciesFoSelect, setCurrenciesFoSelect] = useState<Record<string, number>>({});
@@ -43,26 +37,39 @@ export const History = () => {
   }, [baseCurrencies, historyCurrencies]);
 
   useEffect(() => {
-    fetch(`https://${host}/${dateStart}..${dateEnd}?from=${baseCurrencies}&to=${historyCurrencies}`)
+    if(!dateStart || !dateEnd) {
+      setCurrencies({});
+      return;
+    }
+    let newStartDate = dateStart;
+    if (newStartDate === dateEnd) {
+      newStartDate = moment(Date.parse(dateStart))
+        .subtract(3, 'days')
+        .format("YYYY-MM-DD")
+        .toString();
+    }
+    fetch(`https://${host}/${newStartDate}..${dateEnd}?from=${baseCurrencies}&to=${historyCurrencies}`)
       .then(changeStatus)
       .then(response => response.json())
       .then(json => {
-
         setCurrencies(json.rates)
       })
       .catch(error => {
-
-        return Promise.reject()
-      })
+        return Promise.reject();
+      });
   }, [baseCurrencies, dateStart, dateEnd, historyCurrencies]);
 
   return (
-
     <>
-      <HistoryCurrencySelector currenciesFoSelect={currenciesFoSelect}
-                               setBaseCurrencies={setBaseCurrencies} setDateStart={setDateStart}
-                               setDateEnd={setDateEnd} setHistoryCurrencies={setHistoryCurrencies}/>
-      <RateCurrencyHistoryTable currencies={currencies} historyCurrencies={historyCurrencies}/>
+      <HistoryCurrencySelector
+        currenciesFoSelect={currenciesFoSelect}
+        setBaseCurrencies={setBaseCurrencies}
+        setDateStart={setDateStart}
+        setDateEnd={setDateEnd}
+        setHistoryCurrencies={setHistoryCurrencies}/>
+      <RateCurrencyHistoryTable
+        currencies={currencies}
+        historyCurrencies={historyCurrencies}/>
     </>
   )
 }

@@ -72,7 +72,7 @@ export const CurrencySelector = () => {
                 onChange={handleChange1}
         >
           {
-            Object.keys(currencies).map(currencyKey => <Option value={currencyKey}>{`${currencyKey} `}</Option>)
+            Object.keys(currencies).map((currencyKey,index)=> <Option key={index} value={currencyKey}>{`${currencyKey} `}</Option>)
           }
         </Select>
       </label>
@@ -82,7 +82,7 @@ export const CurrencySelector = () => {
           onChange={handleChange2}
         >
           {
-            Object.keys(currencies).map(currencyKey => <Option value={currencyKey}>{`${currencyKey} `}</Option>)
+            Object.keys(currencies).map((currencyKey,index )=> <Option key={index} value={currencyKey}>{`${currencyKey} `}</Option>)
           }
         </Select>
       </label>

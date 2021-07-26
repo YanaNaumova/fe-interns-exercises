@@ -1,6 +1,6 @@
 import {DatePicker, Space} from 'antd';
 import React from "react";
-import {Moment} from "moment";
+import moment, {Moment} from "moment";
 import {RangeValue} from "rc-picker/lib/interface";
 
 const {RangePicker} = DatePicker;
@@ -18,7 +18,7 @@ export const DataP = (props: IPropsDataP) => {
 
   return (
     <Space direction="vertical" size={12}>
-      <RangePicker onChange={handleChange}/>
+      <RangePicker defaultValue={[moment().subtract(3, "days"), moment()]} onChange={handleChange}/>
     </Space>
   )
 };
