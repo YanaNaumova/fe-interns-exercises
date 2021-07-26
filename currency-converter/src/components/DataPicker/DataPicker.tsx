@@ -1,35 +1,27 @@
 import {DatePicker, Space} from 'antd';
 import React from "react";
-import moment, {Moment} from "moment";
+import {Moment} from "moment";
+import {RangeValue} from "rc-picker/lib/interface";
 
 const {RangePicker} = DatePicker;
 
-
-var jun = moment("2014-06-01");
-
-interface IPropsDataP{
-    setDateStart: (value: string) => void;
-    setDateEnd: (value: string) => void;
+interface IPropsDataP {
+  setDateStart: (value: string) => void;
+  setDateEnd: (value: string) => void;
 }
 
-
 export const DataP = (props: IPropsDataP) => {
-    const handleChange = (e:any) => {
-        console.log(e)
-        const hh = e[0].format("YYYY-MM-DD");
-        const lh = e[1].format("YYYY-MM-DD");
+  const handleChange = (dates: RangeValue<Moment>, dateStrings: [string, string]) => {
+    props.setDateStart(dateStrings[0])
+    props.setDateEnd(dateStrings[1])
+  }
 
-        props.setDateStart(hh)
-        props.setDateEnd(lh)
-    }
-
-    return (
-        <Space direction="vertical" size={12}>
-            <RangePicker  onChange={handleChange}/>
-        </Space>
-    )
+  return (
+    <Space direction="vertical" size={12}>
+      <RangePicker onChange={handleChange}/>
+    </Space>
+  )
 };
-//Record<string,Moment>
 
 
 

@@ -2,38 +2,37 @@ import React, {useEffect, useState} from 'react'
 import {BaseCurrencySelector} from "../BaseCurrencySelector/BaseCurrencySelector";
 import {RateCurrencyTable} from "../RateCurrencyTable/RateCurrencyTable";
 
-
 export const Home = () => {
 
-    const changeStatus = (responseFromApi: Response) => {
-        if (!responseFromApi.ok) {
-            throw new Error(responseFromApi.statusText);
-        }
-        return responseFromApi;
+  const changeStatus = (responseFromApi: Response) => {
+    if (!responseFromApi.ok) {
+      throw new Error(responseFromApi.statusText);
     }
 
-    const [currencies, setCurrencies] = useState<Record<string, number>>({});
-    const [baseCurrencies, setBaseCurrencies] = useState<string>('EUR');
+    return responseFromApi;
+  }
 
-    useEffect(() => {
-        const host = 'api.frankfurter.app';
-        const currencyValue = baseCurrencies;
-        fetch(`https://${host}/latest?from=${currencyValue}`)
-            .then(changeStatus)
-            .then(response => response.json())
-            .then(json => {
-                setCurrencies(json.rates)
-            })
-            .catch(error => {
+  const [currencies, setCurrencies] = useState<Record<string, number>>({});
+  const [baseCurrencies, setBaseCurrencies] = useState<string>('EUR');
 
-                return Promise.reject()
-            })
-    }, [baseCurrencies]);
+  useEffect(() => {
+    const host = 'api.frankfurter.app';
+    fetch(`https://${host}/latest?from=${baseCurrencies}`)
+      .then(changeStatus)
+      .then(response => response.json())
+      .then(json => {
+        setCurrencies(json.rates)
+      })
+      .catch(error => {
 
-    return (
-        <>
-            <BaseCurrencySelector currencies={currencies} setBaseCurrencies={setBaseCurrencies}/>
-            <RateCurrencyTable currencies={currencies}/>
-        </>
-    )
+        return Promise.reject()
+      })
+  }, [baseCurrencies]);
+
+  return (
+    <>
+      <BaseCurrencySelector currencies={currencies} setBaseCurrencies={setBaseCurrencies}/>
+      <RateCurrencyTable currencies={currencies}/>
+    </>
+  )
 }

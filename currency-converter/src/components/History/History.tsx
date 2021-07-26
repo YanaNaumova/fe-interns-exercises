@@ -3,68 +3,67 @@ import {HistoryCurrencySelector} from "../HistoryCurrencySelector/HistoryCurrenc
 import {RateCurrencyHistoryTable} from "../RateCurrencyHistoryTable/RateCurrencyHistoryTable";
 
 export const History = () => {
-    const changeStatus = (responseFromApi: Response) => {
-        if (!responseFromApi.ok) {
-            throw new Error(responseFromApi.statusText);
-        }
-
-        return responseFromApi;
+  const changeStatus = (responseFromApi: Response) => {
+    if (!responseFromApi.ok) {
+      throw new Error(responseFromApi.statusText);
     }
 
-    const date = new Date();
+    return responseFromApi;
+  }
 
-    let day: string | number = date.getDate();
-    let month: string | number = date.getMonth();
-    let year = date.getFullYear();
-    if (day < 10) day = "0" + (day+1);
-    if (month < 10) month = "0" + (month+1);
+  const date = new Date();
 
-    let newdateStr: string = year + '-' + month + '-' + day;
+  let day: string | number = date.getDate();
+  let month: string | number = date.getMonth();
+  let year = date.getFullYear();
+  if (day < 10) day = "0" + (day + 1);
+  if (month < 10) month = "0" + (month + 1);
 
-    const [currencies, setCurrencies] = useState<Record<string,Record<string, number>>>({});
-    const [currenciesFoSelect, setCurrenciesFoSelect] = useState<Record<string, number>>({});
-    const [baseCurrencies, setBaseCurrencies] = useState<string>('EUR');
-    const [historyCurrencies, setHistoryCurrencies] = useState<string>('USD');
-    const [dateStart, setDateStart] = useState<string>(newdateStr);
-    const [dateEnd, setDateEnd] = useState<string>(`${newdateStr}`);
+  let newDateStr: string = year + '-' + month + '-' + day;
 
-    useEffect(() => {
-        const host = 'api.frankfurter.app';
-        const currencyValue = baseCurrencies;
-        fetch(`https://${host}/latest?from=${currencyValue}`)
-            .then(changeStatus)
-            .then(response => response.json())
-            .then(json => {
-                setCurrenciesFoSelect(json.rates)
-            })
-            .catch(error => {
+  const [currencies, setCurrencies] = useState<Record<string, Record<string, number>>>({});
+  const [currenciesFoSelect, setCurrenciesFoSelect] = useState<Record<string, number>>({});
+  const [baseCurrencies, setBaseCurrencies] = useState<string>('EUR');
+  const [historyCurrencies, setHistoryCurrencies] = useState<string>('USD');
+  const [dateStart, setDateStart] = useState<string>(newDateStr);
+  const [dateEnd, setDateEnd] = useState<string>(`${newDateStr}`);
 
-                return Promise.reject()
-            })
-    }, [baseCurrencies, historyCurrencies]);
+  const host = 'api.frankfurter.app';
+  useEffect(() => {
+    const currencyValue = baseCurrencies;
+    fetch(`https://${host}/latest?from=${currencyValue}`)
+      .then(changeStatus)
+      .then(response => response.json())
+      .then(json => {
+        setCurrenciesFoSelect(json.rates)
+      })
+      .catch(error => {
 
-    useEffect(() => {
-        const host = 'api.frankfurter.app';
-        fetch(`https://${host}/${dateStart}..${dateEnd}?from=${baseCurrencies}&to=${historyCurrencies}`)
-            .then(changeStatus)
-            .then(response => response.json())
-            .then(json => {
+        return Promise.reject()
+      })
+  }, [baseCurrencies, historyCurrencies]);
 
-                setCurrencies(json.rates)
-            })
-            .catch(error => {
+  useEffect(() => {
+    fetch(`https://${host}/${dateStart}..${dateEnd}?from=${baseCurrencies}&to=${historyCurrencies}`)
+      .then(changeStatus)
+      .then(response => response.json())
+      .then(json => {
 
-                return Promise.reject()
-            })
-    }, [baseCurrencies, dateStart, dateEnd, historyCurrencies]);
+        setCurrencies(json.rates)
+      })
+      .catch(error => {
 
-    return (
+        return Promise.reject()
+      })
+  }, [baseCurrencies, dateStart, dateEnd, historyCurrencies]);
 
-        <>
-            <HistoryCurrencySelector currenciesFoSelect={currenciesFoSelect} currencies={currencies}
-                                     setBaseCurrencies={setBaseCurrencies} setDateStart={setDateStart}
-                                     setDateEnd={setDateEnd} setHistoryCurrencies={setHistoryCurrencies}/>
-            <RateCurrencyHistoryTable currencies={currencies} historyCurrencies={historyCurrencies}/>
-        </>
-    )
+  return (
+
+    <>
+      <HistoryCurrencySelector currenciesFoSelect={currenciesFoSelect} currencies={currencies}
+                               setBaseCurrencies={setBaseCurrencies} setDateStart={setDateStart}
+                               setDateEnd={setDateEnd} setHistoryCurrencies={setHistoryCurrencies}/>
+      <RateCurrencyHistoryTable currencies={currencies} historyCurrencies={historyCurrencies}/>
+    </>
+  )
 }

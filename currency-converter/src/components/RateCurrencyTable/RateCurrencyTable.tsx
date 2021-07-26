@@ -1,38 +1,37 @@
-import React, {useEffect, useState,useContext} from 'react';
+import React from 'react';
 import {Table} from 'antd';
 import './RateCurrencyTable.css';
-import {Interface} from "readline";
 
-interface IRateCurrencyProps{
-    currencies:Record<string, number>
+interface IRateCurrencyProps {
+  currencies: Record<string, number>
 }
 
-export const RateCurrencyTable=(props:IRateCurrencyProps)=> {
-    const columns = [
-        {
-            title: 'Currency name',
-            dataIndex: 'rate',
-        },
-        {
-            title: 'Rate',
-            dataIndex: 'value',
-        },
-    ];
+export const RateCurrencyTable = (props: IRateCurrencyProps) => {
+  const columns = [
+    {
+      title: 'Currency name',
+      dataIndex: 'rate',
+    },
+    {
+      title: 'Rate',
+      dataIndex: 'value',
+    },
+  ];
 
-    const data = Object.keys(props.currencies).map((ratesKey, index) => {
-
-        return (
-            {
-                key: `${index}`,
-                rate: `${ratesKey}`,
-                value: `${(props.currencies[ratesKey]).toFixed(4)}`,
-            }
-        )
-    })
+  const data = Object.keys(props.currencies).map((ratesKey, index) => {
 
     return (
-        <div>
-            <Table columns={columns} dataSource={data} size="middle"/>
-        </div>
+      {
+        key: `${index}`,
+        rate: `${ratesKey}`,
+        value: `${(props.currencies[ratesKey]).toFixed(4)}`,
+      }
     )
+  })
+
+  return (
+    <div>
+      <Table columns={columns} dataSource={data} size="middle"/>
+    </div>
+  )
 }
