@@ -25,8 +25,7 @@ export const RateCurrencyHistoryTable = (props: IRateHistoryProps) => {
       {
         key: `${index}`,
         rate: `${ratesKey}`,
-        value: `${props.currencies[ratesKey][props.historyCurrencies]}`,
-
+        value: `${props.currencies[ratesKey][props.historyCurrencies] ? props.currencies[ratesKey][props.historyCurrencies] : '0.00'}`,
       })
   })
 

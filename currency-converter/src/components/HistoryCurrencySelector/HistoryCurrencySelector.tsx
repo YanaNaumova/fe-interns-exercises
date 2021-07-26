@@ -8,20 +8,25 @@ const {Option} = Select;
 
 interface IHistoryCurrencyProps {
   currenciesFoSelect: Record<string, number>;
-  currencies: Record<string, Record<string, number>>;
   setBaseCurrencies: (value: string) => void;
   setDateStart: (value: string) => void;
   setDateEnd: (value: string) => void;
   setHistoryCurrencies: (value: string) => void;
 }
 
-export const HistoryCurrencySelector = (props: IHistoryCurrencyProps) => {
-  const handleChange1 = (value: string) => {
-    props.setBaseCurrencies(value)
+export const HistoryCurrencySelector:React.FC<IHistoryCurrencyProps> = ({
+  currenciesFoSelect,
+  setBaseCurrencies,
+  setDateStart,
+  setDateEnd,
+  setHistoryCurrencies,
+}) => {
+  const handleBaseCurrencyChange = (value: string) => {
+    setBaseCurrencies(value)
   }
 
-  const handleChange2 = (value: string) => {
-    props.setHistoryCurrencies(value)
+  const handleHistoryCurrencyChange = (value: string) => {
+    setHistoryCurrencies(value)
   }
 
   const defaultValue = 'EUR';
@@ -31,10 +36,10 @@ export const HistoryCurrencySelector = (props: IHistoryCurrencyProps) => {
       <label> <span className="base">Base:</span>
         <Select className="select"
                 defaultValue={defaultValue}
-                onChange={handleChange1}
+                onChange={handleBaseCurrencyChange}
         >
           {
-            Object.keys(props.currenciesFoSelect).map(currencyKey => <Option
+            Object.keys(currenciesFoSelect).map(currencyKey => <Option
               value={currencyKey}>{`${currencyKey} `}</Option>)
           }
         </Select>
@@ -42,16 +47,16 @@ export const HistoryCurrencySelector = (props: IHistoryCurrencyProps) => {
       <label> <span className="base">History of:</span>
         <Select
           defaultValue="USD"
-          onChange={handleChange2}
+          onChange={handleHistoryCurrencyChange}
         >
           {
-            Object.keys(props.currenciesFoSelect).map(currencyKey => <Option
+            Object.keys(currenciesFoSelect).map(currencyKey => <Option
               value={currencyKey}>{`${currencyKey} `}</Option>)
           }
         </Select>
       </label>
       <label><span className="base">Data range:</span>
-        <DataP setDateStart={props.setDateStart} setDateEnd={props.setDateEnd}/>
+        <DataP setDateStart={setDateStart} setDateEnd={setDateEnd}/>
       </label>
     </>
   )

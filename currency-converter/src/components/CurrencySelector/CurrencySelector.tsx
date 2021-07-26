@@ -63,7 +63,7 @@ export const CurrencySelector = () => {
   }, [baseCurrencies, historyCurrencies]);
 
   const result = (currency[historyCurrencies] * Number(amount)).toFixed(2);
-  console.log(typeof amount)
+
   return (
     <>
       <label> <span className="base">From:</span>

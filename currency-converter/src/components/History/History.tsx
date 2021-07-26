@@ -30,8 +30,7 @@ export const History = () => {
 
   const host = 'api.frankfurter.app';
   useEffect(() => {
-    const currencyValue = baseCurrencies;
-    fetch(`https://${host}/latest?from=${currencyValue}`)
+    fetch(`https://${host}/latest?from=${baseCurrencies}`)
       .then(changeStatus)
       .then(response => response.json())
       .then(json => {
@@ -60,7 +59,7 @@ export const History = () => {
   return (
 
     <>
-      <HistoryCurrencySelector currenciesFoSelect={currenciesFoSelect} currencies={currencies}
+      <HistoryCurrencySelector currenciesFoSelect={currenciesFoSelect}
                                setBaseCurrencies={setBaseCurrencies} setDateStart={setDateStart}
                                setDateEnd={setDateEnd} setHistoryCurrencies={setHistoryCurrencies}/>
       <RateCurrencyHistoryTable currencies={currencies} historyCurrencies={historyCurrencies}/>
