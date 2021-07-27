@@ -6,18 +6,22 @@ import './CurrencySelector.css'
 const {Option} = Select;
 
 export const CurrencySelector = () => {
-  const [amount, setAmount] = useState<string>('');
-  const handleChange1 = (value: string) => {
+  const [amount, setAmount] = useState<number|string>();
+  const [currencies, setCurrencies] = useState<Record<string, number>>({});
+  const [currency, setCurrency] = useState<Record<string, number>>({});
+  const [baseCurrencies, setBaseCurrencies] = useState<string>('EUR');
+  const [historyCurrencies, setHistoryCurrencies] = useState<string>('USD');
+
+  const handleBaseCurrenciesChange = (value: string) => {
     setBaseCurrencies(value)
   }
 
-  const handleChange2 = (value: string) => {
+  const handleHistoryCurrenciesChange = (value: string) => {
     setHistoryCurrencies(value)
   }
 
   const inputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(event.target.value);
-
+    setAmount(Number(event.target.value));
   }
 
   const changeStatus = (responseFromApi: Response) => {
@@ -27,11 +31,6 @@ export const CurrencySelector = () => {
 
     return responseFromApi;
   }
-
-  const [currencies, setCurrencies] = useState<Record<string, number>>({});
-  const [currency, setCurrency] = useState<Record<string, number>>({});
-  const [baseCurrencies, setBaseCurrencies] = useState<string>('EUR');
-  const [historyCurrencies, setHistoryCurrencies] = useState<string>('USD');
 
   const host = 'api.frankfurter.app';
 
@@ -62,34 +61,57 @@ export const CurrencySelector = () => {
       })
   }, [baseCurrencies, historyCurrencies]);
 
-  const result = (currency[historyCurrencies] * Number(amount)).toFixed(2);
+  let result:number|string;
+
+  if(amount===undefined){
+      result=0;
+  }else {
+    result = (currency[historyCurrencies] * Number(amount)).toFixed(2);
+  }
 
   return (
     <>
-      <label> <span className="base">From:</span>
+      <label> <span id='form' className="base">From:</span>
         <Select className="select"
                 defaultValue='EUR'
-                onChange={handleChange1}
+                onChange={handleBaseCurrenciesChange}
         >
           {
-            Object.keys(currencies).map((currencyKey,index)=> <Option key={index} value={currencyKey}>{`${currencyKey} `}</Option>)
+            Object.keys(currencies).map((currencyKey, index) =>(
+              <Option
+                key={index}
+                value={currencyKey}>
+                {`${currencyKey} `}
+              </Option>
+            ))
           }
         </Select>
       </label>
-      <label> <span className="base">To:</span>
+      <label> <span id='to' className="base">To:</span>
         <Select
           defaultValue="USD"
-          onChange={handleChange2}
+          onChange={handleHistoryCurrenciesChange}
         >
           {
-            Object.keys(currencies).map((currencyKey,index )=> <Option key={index} value={currencyKey}>{`${currencyKey} `}</Option>)
-          }
+            Object.keys(currencies).map((currencyKey, index) => (
+              <Option
+                key={index}
+                value={currencyKey}>
+                {`${currencyKey} `}
+              </Option>
+            ))}
         </Select>
       </label>
-      <label> <span className="base">Amount </span>
-        <input min={0} className="inputAmount" type="number" onChange={inputChange} value={amount}/><br/>
+      <label> <span id='amount' className="base">Amount </span>
+        <input
+          min={0}
+          className="inputAmount"
+          type="number"
+          onChange={inputChange}
+          placeholder={'0'}
+          value={amount}/><br/>
       </label>
-      <label className="result">Result: <span className="base">{result}</span>
+      <label id='labelResult' className="result">Result: <span  id='result' className="base">{result}</span>
       </label>
     </>
   )

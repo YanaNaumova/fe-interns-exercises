@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {HistoryCurrencySelector} from "../HistoryCurrencySelector/HistoryCurrencySelector";
 import {RateCurrencyHistoryTable} from "../RateCurrencyHistoryTable/RateCurrencyHistoryTable";
 import moment from "moment";
+import {ChartContainer} from "../Graphics/Graphics";
 
 export const History = () => {
   const changeStatus = (responseFromApi: Response) => {
@@ -37,7 +38,7 @@ export const History = () => {
   }, [baseCurrencies, historyCurrencies]);
 
   useEffect(() => {
-    if(!dateStart || !dateEnd) {
+    if (!dateStart || !dateEnd) {
       setCurrencies({});
       return;
     }
@@ -70,6 +71,9 @@ export const History = () => {
       <RateCurrencyHistoryTable
         currencies={currencies}
         historyCurrencies={historyCurrencies}/>
+      <ChartContainer currencies={currencies}
+                      historyCurrencies={historyCurrencies}/>
     </>
+
   )
 }

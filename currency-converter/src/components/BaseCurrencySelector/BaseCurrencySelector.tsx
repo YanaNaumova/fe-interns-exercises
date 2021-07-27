@@ -23,7 +23,8 @@ export const BaseCurrencySelector = (props: IBaseCurrencyProps) => {
               onChange={handleChange}
       >
         {
-          Object.keys(props.currencies).map((currencyKey,index) => <Option key={index} value={currencyKey}>{`${currencyKey} `}</Option>)
+          Object.keys(props.currencies).map((currencyKey, index) => <Option key={index}
+                                                                            value={currencyKey}>{`${currencyKey} `}</Option>)
         }
       </Select>
     </div>
